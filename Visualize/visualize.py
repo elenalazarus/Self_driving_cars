@@ -1,5 +1,6 @@
 import pandas as pd
 import chartify
+from data.reading import reading
 
 
 def vision(x, y, time_s, time_f):
@@ -70,14 +71,8 @@ def get_coordinates(data):
     return x, y, time_s, time_f
 
 
-def reading(path):
-    data = []
-    with open(path, 'r') as f:
-        output = f.read()
-        for line in output.split('\n'):
-            data.append(list(map(int, line.split())))
-    data.pop(-1)
-    return data
+
+
 
 
 if __name__ == '__main__':
