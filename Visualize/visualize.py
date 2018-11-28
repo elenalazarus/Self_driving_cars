@@ -1,37 +1,31 @@
 import pandas as pd
 import chartify
 from data.reading import reading
+from data.reading import get_coordinates
 
 
 def vision(x, y, time_s, time_f):
     data = pd.DataFrame({'x': x})
     data['y'] = [i for i in y]
+    difference = []
     lst = []
-    lst2 = []
-    lst3 = []
-    lst4 = []
-    lst5 = []
-    for i in range(1, len(x) // 2 + 1):
-        lst.extend([i, i])
-    data['color'] = [str(i) for i in lst]
-    for i in time_s:
-        lst2.extend([i, i])
-    for i in time_f:
-        lst3.extend([i, i])
-    data['time_s'] = [i for i in lst2]
-    data['time_f'] = [i for i in lst3]
-
+    data['color'] = [val for val in range(1, len(x) // 2 + 1) for _ in (0, 1)]
+    data['time_s'] = [val for val in time_s for _ in (0, 1)]
+    data['time_f'] = [val for val in time_f for _ in (0, 1)]
     for i in range(len(time_s)):
-        lst4.extend([time_f[i] - time_s[i], time_f[i] - time_s[i]])
+        difference.extend([time_f[i] - time_s[i], time_f[i] - time_s[i]])
 
-    border = max(lst4) // 60
+    border = max(difference) // 60
 
-
-    for i in lst4:
+    for i in difference:
         ind = i // border
-        lst5.append(ind)
+        lst.append(ind)
+    data['diff'] = [i for i in lst]
 
-    data['diff'] = [i for i in lst5]
+    data['x_s'] = [x[i] for i in range(len(x)) if i % 2 == 0 for _ in (0, 1)]
+    data['x_f'] = [x[i] for i in range(len(x)) if i % 2 != 0 for _ in (0, 1)]
+    data['y_s'] = [y[i] for i in range(len(y)) if i % 2 == 0 for _ in (0, 1)]
+    data['y_f'] = [y[i] for i in range(len(y)) if i % 2 != 0 for _ in (0, 1)]
 
     print(data)
 
@@ -47,9 +41,17 @@ def vision(x, y, time_s, time_f):
 
     ch.plot.scatter(
         data_frame=data,
-        x_column='x',
-        y_column='y',
-        marker='hex',
+        x_column='x_s',
+        y_column='y_s',
+        marker='square',
+        size_column='diff',
+        color_column='time_f')
+
+    ch.plot.scatter(
+        data_frame=data,
+        x_column='x_f',
+        y_column='y_f',
+        marker='circle',
         size_column='diff',
         color_column='time_f')
 
@@ -58,24 +60,8 @@ def vision(x, y, time_s, time_f):
     ch.show('html')
 
 
-def get_coordinates(data):
-    x = []
-    y = []
-    time_s = []
-    time_f = []
-    for trip in data[1:len(data) // 10]:
-        x.extend([trip[0], trip[2]])
-        y.extend([trip[1], trip[3]])
-        time_s.append(trip[4])
-        time_f.append(trip[5])
-    return x, y, time_s, time_f
-
-
-
-
-
-
 if __name__ == '__main__':
-    data = reading('b_should_be_easy.in')
-    x, y, time_s, time_f = get_coordinates(data)
+    data = reading(
+        '/Users/zlatahayvoronska/Documents/Algorithms/Ad fontes/Self_driving_cars/qualification_round_2018/b_should_be_easy.in')
+    x, y, time_s, time_f, xy_s, xy_f = get_coordinates(data)
     vision(x, y, time_s, time_f)
