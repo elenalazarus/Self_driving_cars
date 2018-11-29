@@ -43,25 +43,19 @@ def find_time(info, trip_x, time_s, time_f, x):
     return time1, time2
 
 
-def define(clasters, xy_s, xy_f):
+def define(clusters, xy_s, xy_f):
     xy_s_2 = np.reshape(xy_s, (-1, 2))
     xy_f_2 = np.reshape(xy_f, (-1, 2))
     trips_x = []
     trips_y = []
-    for claster in clasters:
-        for coor in claster:
+    for cluster in clusters:
+        for coor in cluster:
             if coor in xy_s_2:
-                if list(xy_f_2[find_index(xy_s_2, coor)]) in claster:
+                if list(xy_f_2[find_index(xy_s_2, coor)]) in cluster:
                     trips_x.append(
                         [coor[0], xy_f_2[find_index(xy_s_2, coor)][0]])
                     trips_y.append(
                         [coor[1], xy_f_2[find_index(xy_s_2, coor)][1]])
-            else:
-                if list(xy_s_2[find_index(xy_f_2, coor)]) in claster:
-                    trips_x.append(
-                        [ xy_s_2[find_index(xy_f_2, coor)][0], coor[0]])
-                    trips_y.append(
-                        [xy_s_2[find_index(xy_f_2, coor)][1], coor[1]])
     return trips_x, trips_y
 
 
