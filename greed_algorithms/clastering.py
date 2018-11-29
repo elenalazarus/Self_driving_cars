@@ -20,13 +20,27 @@ def find_index(lst, element):
         n += 1
 
 
-def find_time(trip_x, info):
-    time_s, time_f = [], []
+def made_2d(lst):
+    new = []
+    for i in range(0, len(lst), 2):
+        new.append([lst[i], lst[i + 1]])
+    return new
+
+
+def find(info, lst):
+    for l in info:
+        if set(lst).issubset(set(l)):
+            return l
+
+
+def find_time(info, trip_x, time_s, time_f, x):
+    time1, time2 = [], []
+    x2 = made_2d(x)
     for i in range(len(trip_x)):
-        if set(list((info[i][0], info[i][2]))) in set(trip_x[i]):
-            time_s.append(info[i][4])
-            time_f.append(info[i][5])
-    return time_s, time_f
+        if trip_x[i] in x2:
+            time1.append(find(info, trip_x[i])[4])
+            time2.append(find(info, trip_x[i])[5])
+    return time1, time2
 
 
 def define(clasters, xy_s, xy_f):
@@ -45,9 +59,9 @@ def define(clasters, xy_s, xy_f):
             else:
                 if list(xy_s_2[find_index(xy_f_2, coor)]) in claster:
                     trips_x.append(
-                        [coor[0], xy_s_2[find_index(xy_f_2, coor)][0]])
+                        [ xy_s_2[find_index(xy_f_2, coor)][0], coor[0]])
                     trips_y.append(
-                        [coor[1], xy_s_2[find_index(xy_f_2, coor)][1]])
+                        [xy_s_2[find_index(xy_f_2, coor)][1], coor[1]])
     return trips_x, trips_y
 
 
@@ -71,5 +85,7 @@ if __name__ == '__main__':
     info.sort(key=lambda x: x[4])
     clasters = clastering(info, x, y)
     trip_x, trip_y = define(clasters, xy_s, xy_f)
-    time_s_2, time_f_2 = find_time(trip_x, info)
-    # vision(trip_x, trip_y, time_s_2, time_f_2)
+    time_s_2, time_f_2 = find_time(info, trip_x, time_s, time_f, x)
+    trip_x2 = [item for sublist in trip_x for item in sublist]
+    trip_y2 = [item for sublist in trip_y for item in sublist]
+    vision(trip_x2, trip_y2, time_s_2, time_f_2)

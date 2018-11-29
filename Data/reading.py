@@ -15,7 +15,7 @@ def get_coordinates(data):
     xy_f = []
     time_s = []
     time_f = []
-    for trip in data[1: len(data)]:
+    for trip in data[1:]:
         x.extend([trip[0], trip[2]])
         y.extend([trip[1], trip[3]])
         xy_s.extend([trip[0], trip[1]])
