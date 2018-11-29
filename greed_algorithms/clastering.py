@@ -71,6 +71,16 @@ def clastering(info, x, y):
         clasters[ind].append([x[i], y[i]])
     return clasters
 
+def clastering2(info, x, y):
+    average_points = []
+    average_points.append([info[0][0] * 1 / 4, info[0][1] * 1 / 2])
+    average_points.append([info[0][0] * 3 / 4, info[0][1] * 1 / 2])
+    clasters = [[], []]
+    for i in range(len(x)):
+        ind = min_distance(average_points, [x[i], y[i]])
+        clasters[ind].append([x[i], y[i]])
+    return clasters
+
 
 if __name__ == '__main__':
     info = reading(
@@ -78,8 +88,14 @@ if __name__ == '__main__':
     x, y, time_s, time_f, xy_s, xy_f = get_coordinates(info)
     info.sort(key=lambda x: x[4])
     clasters = clastering(info, x, y)
+    clasters2 = clastering2(info, x, y)
     trip_x, trip_y = define(clasters, xy_s, xy_f)
+    points = define(clasters2, xy_s, xy_f)
+    trip_x.extend(points[0])
+    trip_y.extend(points[1])
     time_s_2, time_f_2 = find_time(info, trip_x, time_s, time_f, x)
     trip_x2 = [item for sublist in trip_x for item in sublist]
     trip_y2 = [item for sublist in trip_y for item in sublist]
     vision(trip_x2, trip_y2, time_s_2, time_f_2)
+
+
