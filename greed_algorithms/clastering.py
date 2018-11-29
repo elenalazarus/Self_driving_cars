@@ -3,6 +3,7 @@ from data.reading import get_coordinates
 from Visualize.visualize import vision
 from math import sqrt
 import numpy as np
+from copy import deepcopy
 
 
 def min_distance(av_p, point):
@@ -59,6 +60,23 @@ def define(clusters, xy_s, xy_f):
     return trips_x, trips_y
 
 
+def distance(trip):
+    n = 0
+    trip_start, trip_finish = [trip[0], trip[1]], [trip[2], trip[3]]
+    n += abs(trip_finish[0] - trip_start[0]) + abs(
+        trip_finish[1] - trip_start[1])
+    return n
+
+
+def count_points(trip, time1, time2, bonus=0):
+    points = 0
+    if time2 < trip[5]:
+        points += distance(trip)
+        if time1 == trip[4]:
+            points += bonus
+    return points
+
+
 def clastering(info, x, y):
     average_points = []
     average_points.append([info[0][0] * 1 / 4, info[0][1] * 1 / 4])
@@ -70,6 +88,7 @@ def clastering(info, x, y):
         ind = min_distance(average_points, [x[i], y[i]])
         clasters[ind].append([x[i], y[i]])
     return clasters
+
 
 def clastering2(info, x, y):
     average_points = []
@@ -96,6 +115,6 @@ if __name__ == '__main__':
     time_s_2, time_f_2 = find_time(info, trip_x, time_s, time_f, x)
     trip_x2 = [item for sublist in trip_x for item in sublist]
     trip_y2 = [item for sublist in trip_y for item in sublist]
-    vision(trip_x2, trip_y2, time_s_2, time_f_2)
-
-
+    # vision(trip_x2, trip_y2, time_s_2, time_f_2)
+    print(distance([5, 5, 7, 3]))
+    print(count_points([666, 188, 504, 995, 208, 2340], 208, 1000))
