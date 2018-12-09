@@ -115,6 +115,5 @@ if __name__ == '__main__':
     time_s_2, time_f_2 = find_time(info, trip_x, time_s, time_f, x)
     trip_x2 = [item for sublist in trip_x for item in sublist]
     trip_y2 = [item for sublist in trip_y for item in sublist]
-    # vision(trip_x2, trip_y2, time_s_2, time_f_2)
-    print(distance([5, 5, 7, 3]))
+    vision(trip_x2, trip_y2, time_s_2, time_f_2)
     print(count_points([666, 188, 504, 995, 208, 2340], 208, 1000))

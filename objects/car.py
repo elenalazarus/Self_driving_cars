@@ -1,5 +1,6 @@
 class Car:
-    def __init__(self, id, start, finish):
+    def __init__(self, id):
         self.id = id
-        self.start = start
-        self.finish = finish
+        self.position = (0, 0)
+        self.trips = []
+        self.time = 0

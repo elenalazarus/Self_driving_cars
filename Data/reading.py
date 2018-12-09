@@ -1,3 +1,6 @@
+from data.trips import Trip
+
+
 def reading(path):
     data = []
     with open(path, 'r') as f:
@@ -6,6 +9,15 @@ def reading(path):
             data.append(list(map(int, line.split())))
     data.pop(-1)
     return data
+
+
+def reading_2(data):
+    rides = []
+    rows, cols, n_cars, n_rides, bonus, t = data[0]
+    for trip in data[1:]:
+        rides.append(Trip(data.index(trip) - 1, trip[0], trip[1], trip[2], trip[3], trip[4], trip[5]))
+
+    return rides, int(rows), int(cols), int(n_cars), int(bonus), int(t)
 
 
 def get_coordinates(data):
