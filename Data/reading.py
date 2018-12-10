@@ -1,4 +1,4 @@
-from data.trips import Trip
+from objects.trips import Trip
 
 
 def reading(path):
