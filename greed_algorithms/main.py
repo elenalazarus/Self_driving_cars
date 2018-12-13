@@ -150,12 +150,7 @@ def write_in_file(path, cars):
 
 
 if __name__ == '__main__':
-    pathes = [
-        "/Users/zlatahayvoronska/Documents/Algorithms/Ad fontes/Self_driving_cars/qualification_round_2018/a_example.in"]
-        # "/Users/zlatahayvoronska/Documents/Algorithms/Ad fontes/Self_driving_cars/qualification_round_2018/b_should_be_easy.in",
-        # "/Users/zlatahayvoronska/Documents/Algorithms/Ad fontes/Self_driving_cars/qualification_round_2018/c_no_hurry.in",
-        # "/Users/zlatahayvoronska/Documents/Algorithms/Ad fontes/Self_driving_cars/qualification_round_2018/d_metropolis.in",
-        # "/Users/zlatahayvoronska/Documents/Algorithms/Ad fontes/Self_driving_cars/qualification_round_2018/e_high_bonus.in"]
+    pathes = [#your_pathes]
     a = 0
     for k in range(1, 4):
         print("Variant:", k)
